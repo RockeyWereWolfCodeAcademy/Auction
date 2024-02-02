@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auction.Core.Enums
+namespace Auction.Core.Enums;
+
+public enum Roles
 {
-    public enum Roles
-    {
-        Member,
-        Moderator,
-        Admin
-    }
+    Member,
+    Moderator,
+    Admin
 }

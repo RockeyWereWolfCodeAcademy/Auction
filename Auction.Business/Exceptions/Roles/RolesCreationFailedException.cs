@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auction.Business.Exceptions.Roles
+namespace Auction.Business.Exceptions.Roles;
+
+public class RolesCreationFailedException : Exception
 {
-    public class RolesCreationFailedException : Exception
-    {
-        public RolesCreationFailedException() : base() { }
-        public RolesCreationFailedException(string message) : base(message) { }
-    }
+    public RolesCreationFailedException() : base() { }
+    public RolesCreationFailedException(string message) : base(message) { }
 }

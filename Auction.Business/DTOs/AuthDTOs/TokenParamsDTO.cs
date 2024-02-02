@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Auction.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Auction.Business.DTOs.AuthDTOs;
 
-public class LoginDTO
+public class TokenParamsDTO
 {
-    public string UsernameOrEmail { get; set; }
-    public string Password { get; set; }
+    public AppUser User { get; set; }
+    public string Role { get; set; }
 }

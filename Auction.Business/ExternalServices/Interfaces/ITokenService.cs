@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auction.Business.Services.Interfaces;
+namespace Auction.Business.ExternalServices.Interfaces;
 
-public interface IUserService
+public interface ITokenService
 {
-    public Task CreateAsync(RegisterDTO dto);
+    public TokenDTO GenerateJWT(TokenParamsDTO dto);
 }

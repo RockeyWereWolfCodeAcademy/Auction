@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Auction.Business.DTOs.AuthDTOs;
 
-public class LoginDTO
+public class TokenDTO
 {
-    public string UsernameOrEmail { get; set; }
-    public string Password { get; set; }
+    public string Token { get; set; }
+    public DateTime ValidUntil { get; set; }
 }

@@ -7,18 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auction.DAL.Configurations
+namespace Auction.DAL.Configurations;
+
+public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
 {
-    public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
+    public void Configure(EntityTypeBuilder<AppUser> builder)
     {
-        public void Configure(EntityTypeBuilder<AppUser> builder)
-        {
-            builder.Property(x => x.Name)
-                 .IsRequired()
-                 .HasMaxLength(64);
-            builder.Property(x => x.Surname)
-                .IsRequired()
-                .HasMaxLength(64);
-        }
+        builder.Property(x => x.Name)
+             .IsRequired()
+             .HasMaxLength(64);
+        builder.Property(x => x.Surname)
+            .IsRequired()
+            .HasMaxLength(64);
     }
 }
