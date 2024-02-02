@@ -1,4 +1,5 @@
 using Auction.API;
+using Auction.API.Helpers;
 using Auction.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,7 @@ public class Program
 
         app.UseAuthorization();
 
+        app.UseSeedData();
 
         app.MapControllers();
 
