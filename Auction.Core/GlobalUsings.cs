@@ -1,0 +1,1 @@
+﻿global using Auction.Core.Entities.Common;
