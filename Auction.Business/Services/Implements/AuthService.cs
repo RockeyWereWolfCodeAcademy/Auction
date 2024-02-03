@@ -53,6 +53,7 @@ public class AuthService : IAuthService
 
     public async Task<string> GetConfirmationToken(AppUser user)
     {
+        user = await _userManager.FindByEmailAsync(user.Email);
         return await _userManager.GenerateEmailConfirmationTokenAsync(user);
     }
 }
