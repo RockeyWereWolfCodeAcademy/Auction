@@ -15,6 +15,20 @@ public class AuctionContext : IdentityDbContext<AppUser>
     public AuctionContext(DbContextOptions options) : base(options) { }
 
     public DbSet<AppUser> Users { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Item> Items { get; set; }
+    public DbSet<Bid> Bids { get; set; }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        var bids = ChangeTracker.Entries<Bid>();
+        foreach (var bid in bids)
+        {
+            if (bid.State == EntityState.Added)
+                bid.Entity.BidTime = DateTime.Now;
+        }
+        return base.SaveChangesAsync(cancellationToken);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

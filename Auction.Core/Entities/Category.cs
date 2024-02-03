@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Auction.Core.Entities;
 
-public class AppUser : IdentityUser
+public class Category : BaseEntity
 {
     public string Name { get; set; }
-    public string Surname { get; set; }
-    public string? ImageUrl { get; set; }
+    public int? ParentCategoryId { get; set; }
+    public Category? ParentCategory { get; set; }
+    public IEnumerable<Category>? ChildCategories { get; set; }
     public IEnumerable<Item>? Items { get; set; }
-    public IEnumerable<Bid>? Bids { get; set; }
 }
