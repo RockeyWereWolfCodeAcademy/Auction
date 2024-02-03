@@ -17,7 +17,10 @@ public class Program
 
         // Add services to the container.
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddNewtonsoftJson(opt=>
+        {
+            opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        });
 
         builder.Services.AddCors(opt =>
         {
@@ -64,6 +67,7 @@ public class Program
         );
         builder.Services.AddUserIdentity();
         builder.Services.AddServices();
+        builder.Services.AddRepositories();
         builder.Services.AddBusinessLayer();
         builder.Services.AddJwtAuthentication(jwt);
 
