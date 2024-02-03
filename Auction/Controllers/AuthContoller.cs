@@ -54,9 +54,8 @@ public class AuthController : ControllerBase
 
     private async Task<string> GenerateConfirmationLink(RegisterDTO dto)
     {
-        var user = _mapper.Map<AppUser>(dto);
-        var token = await _authService.GetConfirmationToken(user);
-        var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = user.Email }, Request.Scheme);
+        var token = await _authService.GetConfirmationToken(dto);
+        var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { token, email = dto.Email }, Request.Scheme);
         return confirmationLink;
     }
 }

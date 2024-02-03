@@ -12,5 +12,5 @@ public interface IAuthService
 {
     public Task<TokenDTO> Login(LoginDTO dto);
     public Task<bool> ConfirmEmail(string token, string email);
-    public Task<string> GetConfirmationToken(AppUser user);
+    public Task<string> GetConfirmationToken(RegisterDTO dto);
 }

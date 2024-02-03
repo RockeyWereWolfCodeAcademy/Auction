@@ -51,8 +51,9 @@ public class AuthService : IAuthService
         return result.Succeeded ? true : false;
     }
 
-    public async Task<string> GetConfirmationToken(AppUser user)
+    public async Task<string> GetConfirmationToken(RegisterDTO dto)
     {
+        var user = await _userManager.FindByEmailAsync(dto.Email);
         return await _userManager.GenerateEmailConfirmationTokenAsync(user);
     }
 }
