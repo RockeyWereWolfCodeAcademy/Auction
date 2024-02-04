@@ -1,4 +1,5 @@
 ﻿using Auction.Business.DTOs.CategoryDTOs;
+using Auction.Business.Exceptions.Category;
 using Auction.Business.Services.Implements;
 using Auction.Business.Services.Interfaces;
 using Auction.Core.Enums;
@@ -9,7 +10,6 @@ namespace Auction.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class CategoriesController : ControllerBase
 {
     readonly ICategoryService _service;
@@ -43,14 +43,14 @@ public class CategoriesController : ControllerBase
             await _service.CreateAsync(topic);
             return StatusCode(StatusCodes.Status201Created);
         }
-        catch (Exception ex)
+        catch (CategoryExistException ex)
         {
             return Conflict(ex.Message);
         }
-        //catch (Exception ex)
-        //{
-        //    return BadRequest(ex.Message);
-        //}
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     [HttpDelete("{id}")]
     [Authorize(Roles = nameof(Roles.Admin))]
@@ -75,6 +75,10 @@ public class CategoriesController : ControllerBase
         {
             await _service.UpdateAsync(id, dto);
             return Ok();
+        }
+        catch (CategoryExistException ex)
+        {
+            return Conflict(ex.Message);
         }
         catch (Exception ex)
         {
