@@ -47,7 +47,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     }
 
 
-    public virtual async Task<T> GetByIdAsync(int id, bool noTracking = true, params string[] includes)
+    public async Task<T> GetByIdAsync(int id, bool noTracking = true, params string[] includes)
     {
         var data = Table.AsQueryable();
         if (includes.Any())

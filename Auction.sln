@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.API", "Auction\Auction.API.csproj", "{4368ACEC-FE9D-4B24-A2EE-4028C2318F2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.API", "Auction.API\Auction.API.csproj", "{4368ACEC-FE9D-4B24-A2EE-4028C2318F2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Core", "Auction.Core\Auction.Core.csproj", "{C19E160A-0216-4782-B61B-3FAFBBDD13D4}"
 EndProject

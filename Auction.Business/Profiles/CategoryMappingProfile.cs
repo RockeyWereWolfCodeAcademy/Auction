@@ -13,9 +13,9 @@ public class CategoryMappingProfile : Profile
 {
     public CategoryMappingProfile()
     {
-        CreateMap<CategoryCreateDTO, Category>()/*.ForMember(c => c.ParentCategoryId, opt => opt.MapFrom(dto => dto.ParentCategoryId))*/;
-        CreateMap<CategoryUpdateDTO, Category>()/*.ForMember(c => c.ParentCategoryId, opt => opt.MapFrom(dto => dto.ParentCategoryId))*/;
+        CreateMap<CategoryCreateDTO, Category>();
+        CreateMap<CategoryUpdateDTO, Category>();
         CreateMap<Category, CategoryListDTO>();
-        CreateMap<Category, CategoryDetailsDTO>()/*.ForMember(dto => dto.ChildCategories, opt => opt.MapFrom(c => c.ChildCategories))*/;
+        CreateMap<Category, CategoryDetailsDTO>();
     }
 }

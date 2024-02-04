@@ -19,6 +19,7 @@ public class CategoryUpdateDTOValidator : AbstractValidator<CategoryUpdateDTO>
     {
         RuleFor(x => x.Name)
             .NotEmpty()
+            .NotNull()
             .MinimumLength(2)
             .MaximumLength(64);
     }
