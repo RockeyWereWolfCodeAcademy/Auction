@@ -1,4 +1,6 @@
 ﻿using Auction.Business.DTOs.CategoryDTOs;
+using Auction.Business.Exceptions.Category;
+using Auction.Business.Exceptions.Common;
 using Auction.Business.Repositories.Interfaces;
 using Auction.Business.Services.Interfaces;
 using Auction.Core.Entities;
@@ -22,11 +24,14 @@ public class CategoryService : ICategoryService
         _mapper = mapper;
     }
 
-    public async Task CreateAsync(CategoryCreateDTO topic)
+    public async Task CreateAsync(CategoryCreateDTO dto)
     {
-        if (await _repo.IsExistAsync(r => r.Name.ToLower() == topic.Name.ToLower()))
-            throw new Exception();
-        await _repo.CreateAsync(_mapper.Map<Category>(topic));
+        if (await _repo.IsExistAsync(r => r.Name.ToLower() == dto.Name.ToLower()))
+            throw new CategoryExistException();
+        if (!await _repo.IsExistAsync(r => r.Id == dto.ParentCategoryId))
+            if (dto.ParentCategoryId != null)
+                throw new NotFoundException<Category>("Parent category is not found");
+        await _repo.CreateAsync(_mapper.Map<Category>(dto));
         await _repo.SaveAsync();
     }
 
@@ -38,7 +43,7 @@ public class CategoryService : ICategoryService
     }
 
     public IEnumerable<CategoryListDTO> GetAll()
-        => _mapper.Map<IEnumerable<CategoryListDTO>>(_repo.GetAll());
+        => _mapper.Map<IEnumerable<CategoryListDTO>>(_repo.GetAll(includes: "ChildCategories"));
     public async Task<CategoryDetailsDTO> GetByIdAsync(int id)
     {
         var data = await _checkId(id, true);
@@ -50,19 +55,20 @@ public class CategoryService : ICategoryService
     {
         var data = await _checkId(id);
         if (dto.Name.ToLower() != data.Name.ToLower())
-        {
             if (await _repo.IsExistAsync(r => r.Name.ToLower() == dto.Name.ToLower()))
-                throw new Exception();
-            data = _mapper.Map(dto, data);
-            await _repo.SaveAsync();
-        }
+                throw new CategoryExistException();
+        if (!await _repo.IsExistAsync(r => r.Id == dto.ParentCategoryId))
+            if (dto.ParentCategoryId != null)
+                throw new NotFoundException<Category>("Parent category is not found");
+        data = _mapper.Map(dto, data);
+        await _repo.SaveAsync();    
     }
 
     async Task<Category> _checkId(int id, bool isTrack = false)
     {
         if (id <= 0) throw new ArgumentException();
-        var data = await _repo.GetByIdAsync(id, isTrack);
-        if (data == null) throw new /*NotFoundException<Category>()*/ Exception();
+        var data = await _repo.GetByIdAsync(id, isTrack, includes: "ChildCategories");
+        if (data == null) throw new NotFoundException<Category>();
         return data;
     }
 }
