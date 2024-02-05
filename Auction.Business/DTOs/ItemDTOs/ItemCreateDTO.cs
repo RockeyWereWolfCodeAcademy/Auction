@@ -44,5 +44,8 @@ public class ItemCreateDTOValidator : AbstractValidator<ItemCreateDTO>
             .NotNull()
             .GreaterThanOrEqualTo(new DateTime(DateTime.UtcNow.Ticks / 600000000 * 600000000))
             .GreaterThan(x=> x.StartingTime);
+        RuleFor(x => x.CategoryId)
+            .NotEmpty()
+            .NotNull();
     }
 }
