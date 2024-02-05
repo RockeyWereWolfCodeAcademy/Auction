@@ -15,7 +15,6 @@ public class ItemCreateDTO
     public decimal StartingPrice { get; set; }
     public DateTime StartingTime { get; set; }
     public DateTime EndingTime { get; set; }
-    public string SellerId { get; set; }
     public int CategoryId { get; set; }
 }
 
@@ -34,17 +33,16 @@ public class ItemCreateDTOValidator : AbstractValidator<ItemCreateDTO>
            .MinimumLength(3)
            .MaximumLength(1024);
         RuleFor(x => x.StartingPrice)
-            .NotEmpty()
             .NotNull()
             .GreaterThanOrEqualTo(0);
         RuleFor(x=> x.StartingTime)
             .NotEmpty()
             .NotNull()
-            .GreaterThanOrEqualTo(DateTime.UtcNow);
+            .GreaterThanOrEqualTo(new DateTime(DateTime.UtcNow.Ticks / 600000000 * 600000000));
         RuleFor(x=> x.EndingTime)
             .NotEmpty()
             .NotNull()
-            .GreaterThanOrEqualTo(DateTime.UtcNow)
-            .NotEqual(x=> x.StartingTime);
+            .GreaterThanOrEqualTo(new DateTime(DateTime.UtcNow.Ticks / 600000000 * 600000000))
+            .GreaterThan(x=> x.StartingTime);
     }
 }

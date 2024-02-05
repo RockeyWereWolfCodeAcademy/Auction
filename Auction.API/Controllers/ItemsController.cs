@@ -1,7 +1,6 @@
-﻿using Auction.Business.DTOs.CategoryDTOs;
-using Auction.Business.Exceptions.Category;
-using Auction.Business.Services.Implements;
+﻿using Auction.Business.DTOs.ItemDTOs;
 using Auction.Business.Services.Interfaces;
+using Auction.Core.Entities;
 using Auction.Core.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +9,10 @@ namespace Auction.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CategoriesController : ControllerBase
+public class ItemsController : ControllerBase
 {
-    readonly ICategoryService _service;
-    public CategoriesController(ICategoryService service)
+    readonly IItemService _service;
+    public ItemsController(IItemService service)
     {
         _service = service;
     }
@@ -37,17 +36,13 @@ public class CategoriesController : ControllerBase
     }
     [HttpPost]
     [Route("Create")]
-    [Authorize(Roles = nameof(Roles.Admin))]
-    public async Task<IActionResult> Create(CategoryCreateDTO topic)
+    [Authorize]
+    public async Task<IActionResult> Create(ItemCreateDTO dto)
     {
         try
         {
-            await _service.CreateAsync(topic);
+            await _service.CreateAsync(dto);
             return StatusCode(StatusCodes.Status201Created);
-        }
-        catch (CategoryExistException ex)
-        {
-            return Conflict(ex.Message);
         }
         catch (Exception ex)
         {
@@ -98,16 +93,12 @@ public class CategoriesController : ControllerBase
     }
     [HttpPut("Update/{id}")]
     [Authorize(Roles = nameof(Roles.Admin))]
-    public async Task<IActionResult> Update(int id, CategoryUpdateDTO dto)
+    public async Task<IActionResult> Update(int id, ItemUpdateDTO dto)
     {
         try
         {
             await _service.UpdateAsync(id, dto);
             return Ok();
-        }
-        catch (CategoryExistException ex)
-        {
-            return Conflict(ex.Message);
         }
         catch (Exception ex)
         {

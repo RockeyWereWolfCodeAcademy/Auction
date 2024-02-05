@@ -33,6 +33,7 @@ public static class ServiceRegistration
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IItemService, ItemService>();
         return services;
     }
     public static IServiceCollection AddBusinessLayer(this IServiceCollection services)

@@ -1,6 +1,7 @@
 ﻿using Auction.Business.DTOs.ItemDTOs;
 using Auction.Business.Exceptions.Common;
 using Auction.Business.Repositories.Interfaces;
+using Auction.Business.Services.Interfaces;
 using Auction.Core.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -15,14 +16,15 @@ using System.Threading.Tasks;
 
 namespace Auction.Business.Services.Implements;
 
-public class ItemService
+public class ItemService : IItemService
 {
     readonly IItemRepository _repo;
+    readonly ICategoryRepository _catRepo;
     readonly IMapper _mapper;
     readonly IHttpContextAccessor _contextAccessor;
     readonly string _userId;
 
-    public ItemService(IItemRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor)
+    public ItemService(IItemRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, ICategoryRepository catRepo)
     {
         _repo = repo;
         _mapper = mapper;
@@ -31,11 +33,14 @@ public class ItemService
         {
             _userId = _contextAccessor.HttpContext?.User?.Claims?.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? throw new NullReferenceException();
         }
+        _catRepo = catRepo;
     }
 
     public async Task CreateAsync(ItemCreateDTO dto)
     {
         var data = _mapper.Map<Item>(dto);
+        if (!await _catRepo.IsExistAsync(r => r.Id == dto.CategoryId))
+            throw new NotFoundException<Category>();
         data.SellerId = _userId;
         data.CurrentPrice = data.StartingPrice;
         await _repo.CreateAsync(data);

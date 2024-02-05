@@ -35,7 +35,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 
     public IQueryable<T> GetAll(bool notTracked = true, params string[] includes)
     {
-        var data = Table.AsQueryable();
+        var data = Table.AsQueryable().Where(x => x.IsDeleted == false);
         if (includes.Any())
         {
             foreach (var include in includes)

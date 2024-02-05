@@ -14,4 +14,6 @@ public interface ICategoryService
     public Task CreateAsync(CategoryCreateDTO topic);
     public Task DeleteAsync(int id);
     public Task UpdateAsync(int id, CategoryUpdateDTO topic);
+    public Task SoftDelete(int id);
+    public Task ReverseSoftDelete(int id);
 }

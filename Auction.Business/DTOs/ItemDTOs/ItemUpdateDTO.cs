@@ -14,7 +14,6 @@ public class ItemUpdateDTO
     public decimal StartingPrice { get; set; }
     public DateTime StartingTime { get; set; }
     public DateTime EndingTime { get; set; }
-    public string SellerId { get; set; }
     public int CategoryId { get; set; }
 }
 
@@ -33,7 +32,6 @@ public class ItemUpdateDTOValidator : AbstractValidator<ItemUpdateDTO>
            .MinimumLength(3)
            .MaximumLength(1024);
         RuleFor(x => x.StartingPrice)
-            .NotEmpty()
             .NotNull()
             .GreaterThanOrEqualTo(0);
         RuleFor(x => x.StartingTime)
@@ -44,6 +42,6 @@ public class ItemUpdateDTOValidator : AbstractValidator<ItemUpdateDTO>
             .NotEmpty()
             .NotNull()
             .GreaterThanOrEqualTo(DateTime.UtcNow)
-            .NotEqual(x => x.StartingTime);
+            .GreaterThan(x => x.StartingTime);
     }
 }
