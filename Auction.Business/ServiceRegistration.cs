@@ -34,6 +34,7 @@ public static class ServiceRegistration
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IItemService, ItemService>();
+        services.AddScoped<IBidService, BidService>();
         return services;
     }
     public static IServiceCollection AddBusinessLayer(this IServiceCollection services)

@@ -21,7 +21,7 @@ public class BidCreateDTOValidator : AbstractValidator<BidCreateDTO>
             .NotEmpty()
             .NotNull();
         RuleFor(x => x.Amount)
-            .NotEmpty()
+            .GreaterThanOrEqualTo(0)
             .NotNull();
 
     }

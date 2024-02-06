@@ -87,7 +87,7 @@ public class ItemService : IItemService
     async Task<Item> _checkId(int id, bool isTrack = false)
     {
         if (id <= 0) throw new ArgumentException();
-        var data = await _repo.GetByIdAsync(id, isTrack, "Seller", "Category", "Bids");
+        var data = await _repo.GetByIdAsync(id, isTrack, "Seller", "Category");
         if (data == null) throw new NotFoundException<Item>();
         return data;
     }

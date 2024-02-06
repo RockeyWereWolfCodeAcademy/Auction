@@ -8,7 +8,7 @@ namespace Auction.Business.Exceptions.Bid;
 
 public class InvalidBidAmountException : Exception
 {
-    public InvalidBidAmountException() : base("Invalid bid amount, check are there anotther bids on this item") { }
+    public InvalidBidAmountException() : base("Invalid bid amount, check are there another bids on this item") { }
     public InvalidBidAmountException(string? message) : base(message) { }
 
 }

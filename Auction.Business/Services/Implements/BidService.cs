@@ -41,11 +41,13 @@ public class BidService : IBidService
         var data = _mapper.Map<Bid>(dto);
         if (!await _itemRepo.IsExistAsync(r => r.Id == dto.ItemId))
             throw new NotFoundException<Item>();
-        var item = await _itemRepo.GetByIdAsync(dto.ItemId);
+        var item = await _itemRepo.GetByIdAsync(dto.ItemId, includes: "Bids");
         if (!item.Bids.Any())
+        {
             if (dto.Amount < item.CurrentPrice)
                 throw new InvalidBidAmountException();
-        if (dto.Amount <= item.CurrentPrice)
+        } 
+        else if (dto.Amount <= item.CurrentPrice)
             throw new InvalidBidAmountException();
         item.CurrentPrice = dto.Amount;
         await _itemRepo.SaveAsync();
