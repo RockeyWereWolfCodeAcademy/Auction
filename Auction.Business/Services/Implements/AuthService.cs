@@ -29,10 +29,10 @@ public class AuthService : IAuthService
     public async Task<TokenDTO> Login(LoginDTO dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.UsernameOrEmail) ?? await _userManager.FindByNameAsync(dto.UsernameOrEmail);   /*await userManager.FindByNameAsync(credentials.Username);*/
-        if (user == null) throw new LoginFailedException("Login failed. Check your credentials!");
+        if (user == null) throw new LoginFailedException();
 
         var result = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
-        if (result == PasswordVerificationResult.Failed) throw new LoginFailedException("Login failed. Check your credentials!");
+        if (result == PasswordVerificationResult.Failed) throw new LoginFailedException();
         if (!await _signInManager.CanSignInAsync(user)) throw new LoginFailedException("Login failed. Account is not confirmed!");
         string role = (await _userManager.GetRolesAsync(user))[0];
         return _tokenService.GenerateJWT(new TokenParamsDTO

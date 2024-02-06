@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auction.Business.Exceptions.Category;
+namespace Auction.Business.Exceptions.Roles;
 
-public class CategoryExistException : Exception, IBaseException
+public class RoleCreationFailedException : Exception, IBaseException
 {
     public string ErrorMessage { get; set; }
     public int StatusCode => StatusCodes.Status409Conflict;
-    public CategoryExistException()
+    public RoleCreationFailedException() 
     {
-        ErrorMessage = "Category already exists";
+        ErrorMessage = "Role creation failed";
     }
-    public CategoryExistException(string? message)
+    public RoleCreationFailedException(string message)
     {
         ErrorMessage = message;
     }

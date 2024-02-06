@@ -25,84 +25,42 @@ public class ItemsController : ControllerBase
     [HttpGet("Get/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        try
-        {
-            return Ok(await _service.GetByIdAsync(id));
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        return Ok(await _service.GetByIdAsync(id));
     }
     [HttpPost]
     [Route("Create")]
     [Authorize]
     public async Task<IActionResult> Create(ItemCreateDTO dto)
     {
-        try
-        {
-            await _service.CreateAsync(dto);
-            return StatusCode(StatusCodes.Status201Created);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        await _service.CreateAsync(dto);
+        return StatusCode(StatusCodes.Status201Created);
     }
     [HttpDelete("Delete/{id}")]
     [Authorize(Roles = nameof(Roles.Admin))]
     public async Task<IActionResult> Delete(int id)
     {
-        try
-        {
-            await _service.DeleteAsync(id);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        await _service.DeleteAsync(id);
+        return Ok();
     }
     [HttpPatch("SoftDelete/{id}")]
     [Authorize(Roles = nameof(Roles.Admin))]
     public async Task<IActionResult> SoftDelete(int id)
     {
-        try
-        {
-            await _service.SoftDelete(id);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        await _service.SoftDelete(id);
+        return Ok();
     }
     [HttpPatch("ReverseSoftDelete/{id}")]
     [Authorize(Roles = nameof(Roles.Admin))]
     public async Task<IActionResult> ReverseSoftDelete(int id)
     {
-        try
-        {
-            await _service.ReverseSoftDelete(id);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        await _service.ReverseSoftDelete(id);
+        return Ok();
     }
     [HttpPut("Update/{id}")]
     [Authorize(Roles = nameof(Roles.Admin))]
     public async Task<IActionResult> Update(int id, ItemUpdateDTO dto)
     {
-        try
-        {
-            await _service.UpdateAsync(id, dto);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        await _service.UpdateAsync(id, dto);
+        return Ok();
     }
 }

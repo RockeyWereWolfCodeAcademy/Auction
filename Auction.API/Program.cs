@@ -4,6 +4,7 @@ using Auction.Business;
 using Auction.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Twitter.API.Helpers;
 
 namespace Auction;
 
@@ -87,6 +88,7 @@ public class Program
         app.UseCors();
 
         app.UseSeedData();
+        app.UseCustomExceptionHandler();
         app.UseAuthentication();
         app.UseAuthorization();
 

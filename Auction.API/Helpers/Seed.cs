@@ -40,7 +40,7 @@ public static class Seed
                 {
                     sb.Append(error.Description + " ");
                 }
-                throw new RolesCreationFailedException(sb.ToString().TrimEnd());
+                throw new RoleCreationFailedException(sb.ToString().TrimEnd());
             }
         }
     }
