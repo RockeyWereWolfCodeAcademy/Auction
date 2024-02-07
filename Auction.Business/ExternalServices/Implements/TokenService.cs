@@ -44,4 +44,31 @@ public class TokenService : ITokenService
             ValidUntil = token.ValidTo
         };
     }
+
+    public JwtSecurityToken ValidateToken(string token)
+    {
+        if (token == null)
+            return null;
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var validatedToken = tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidIssuer = _configuration["Jwt:Issuer"],
+                ValidAudience = _configuration["Jwt:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]))
+            }, out SecurityToken validatedSecurityToken);
+
+            var jwtToken = (JwtSecurityToken)validatedSecurityToken;
+            return jwtToken;
+        }
+        catch 
+        {
+            return null;
+        }
+    }
 }

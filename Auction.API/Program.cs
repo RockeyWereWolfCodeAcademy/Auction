@@ -23,6 +23,8 @@ public class Program
             opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         });
 
+        builder.Services.AddControllersWithViews();
+
         builder.Services.AddCors(opt =>
         {
             opt.AddDefaultPolicy(pol =>
@@ -83,6 +85,8 @@ public class Program
             });
         }
 
+        app.UseStaticFiles();
+
         app.UseHttpsRedirection();
 
         app.UseCors();
@@ -93,6 +97,10 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+        app.MapControllerRoute(
+            name: "areas",
+            pattern: "{area:exists}/{controller=AdminAuth}/{action=Login}/{id?}"
+        );
 
         app.Run();
     }
