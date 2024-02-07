@@ -42,6 +42,8 @@ public class BidService : IBidService
         if (!await _itemRepo.IsExistAsync(r => r.Id == dto.ItemId))
             throw new NotFoundException<Item>();
         var item = await _itemRepo.GetByIdAsync(dto.ItemId, false, includes: "Bids");
+        if (item.EndingTime <= DateTime.UtcNow)
+            throw new InvalidOperationException("Bidding time for this item is ended");
         if (!item.Bids.Any())
         {
             if (dto.Amount < item.CurrentPrice)
