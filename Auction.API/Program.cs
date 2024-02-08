@@ -99,7 +99,7 @@ public class Program
         app.MapControllers();
         app.MapControllerRoute(
             name: "areas",
-            pattern: "{area:exists}/{controller=AdminAuth}/{action=Login}/{id?}"
+            pattern: "{area:exists}/{controller=AdminItem}/{action=Index}/{id?}"
         );
 
         app.Run();

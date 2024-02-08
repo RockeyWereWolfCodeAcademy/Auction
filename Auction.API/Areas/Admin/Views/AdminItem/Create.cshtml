@@ -1,0 +1,51 @@
+﻿@{
+	ViewData["Title"] = "Item Create";
+}
+
+@model ItemCreateDTO
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header py-3">
+            <br />
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">@ViewData["Title"]</h4>
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input style="color:inherit" asp-for="Name" class="form-control">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea style="color:inherit" asp-for="Description" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartingPrice">Starting Price</label>
+                    <input style="color:inherit" asp-for="StartingPrice" class="form-control">
+                    <span asp-validation-for="StartingPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartingTime">StartingTime</label>
+                    <input style="color:inherit" asp-for="StartingTime" class="form-control">
+                    <span asp-validation-for="StartingTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndingTime">EndingTime</label>
+                    <input style="color:inherit" asp-for="EndingTime" class="form-control">
+                    <span asp-validation-for="EndingTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId">Category</label>
+                    <select class="form-control" asp-for="CategoryId" asp-items='@new SelectList(ViewBag.Categories,"Id", "Name")'>
+                        <option style="color:inherit" disabled selected>Select Category</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <button class="btn btn-success">Create</button>
+            </form>
+        </div>
+    </div>
+</div>

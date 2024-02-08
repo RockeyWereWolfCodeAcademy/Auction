@@ -11,9 +11,9 @@ public interface IItemService
 {
     public IEnumerable<ItemListDTO> GetAll();
     public Task<ItemDetailsDTO> GetByIdAsync(int id);
-    public Task CreateAsync(ItemCreateDTO topic);
+    public Task CreateAsync(ItemCreateDTO dto);
     public Task DeleteAsync(int id);
-    public Task UpdateAsync(int id, ItemUpdateDTO topic);
+    public Task UpdateAsync(int id, ItemUpdateDTO dto);
     public Task SoftDelete(int id);
     public Task ReverseSoftDelete(int id);
 }

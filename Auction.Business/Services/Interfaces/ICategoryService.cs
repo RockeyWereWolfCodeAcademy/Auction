@@ -11,9 +11,9 @@ public interface ICategoryService
 {
     public IEnumerable<CategoryListDTO> GetAll();
     public Task<CategoryDetailsDTO> GetByIdAsync(int id);
-    public Task CreateAsync(CategoryCreateDTO topic);
+    public Task CreateAsync(CategoryCreateDTO dto);
     public Task DeleteAsync(int id);
-    public Task UpdateAsync(int id, CategoryUpdateDTO topic);
+    public Task UpdateAsync(int id, CategoryUpdateDTO dto);
     public Task SoftDelete(int id);
     public Task ReverseSoftDelete(int id);
 }

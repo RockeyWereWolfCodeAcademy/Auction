@@ -5,40 +5,58 @@
 @model IEnumerable<ItemListDTO>
 
 
+<!-- Begin Page Content -->
+<div class="container-fluid">
     <div class="card mb-4">
         <div class="card-body">
             <h4 class="card-title">Items Table</h4>
             <p class="card-description">
                 <br />
-                <a class="btn btn-outline-success" asp-action="Create" asp-controller="AdminAuthor">Create</a>
+                <a class="btn btn-outline-info" asp-action="Create" asp-controller="AdminItem">Create</a>
             </p>
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table class="table" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th colspan="2" style="text-align: center">Action</th>
+                            <th>Starting Price</th>
+                            <th>Current Price</th>
+                            <th>Starting Time</th>
+                            <th>Ending Time</th>
+                            <th>Seller</th>
+                            <th>Category</th>
+                            <th style="text-align:center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.Count() != 0)
+                        @if (!Model.Any())
                         {
-                            @foreach (var author in Model)
-                            {
-                                <tr>
-                                    <td>@author.Id</td>
-                                    <td>@author.Name</td>
-                                    <td><a class="btn btn-outline-info" asp-action="Update" asp-controller="AdminAuthor" asp-route-id="@author.Id">Update</a></td>
-                                    <td><a class="btn btn-outline-danger" asp-action="Delete" asp-controller="AdminAuthor" asp-route-id="@author.Id">Delete</a></td>
-                                </tr>
-                            }
+                            <tr>
+                                <td colspan="8" style="text-align:center">NO DATA</td>
+                            </tr>
                         }
                         else
                         {
-                            <tr align="center">
-                                <td colspan="4">NO DATA</td>
-                            </tr>
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.StartingPrice</td>
+                                    <td>@item.CurrentPrice</td>
+                                    <td>@item.StartingTime</td>
+                                    <td>@item.EndingTime</td>
+                                    <td>@item.SellerUsername</td>
+                                    <td>@item.CategoryName</td>
+                                    <td style="text-align:center">
+                                        <select class="form-select border-info bg-dark" style="color:inherit">
+                                            <option style="color:inherit" onclick="location = this.value" value="Admin/AdminItem/Update/@item.Id">Update</option>
+                                            <option style="color:inherit" onclick="location = this.value" value="Admin/AdminItem/Delete/@item.Id">Delete</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -46,3 +64,5 @@
         </div>
     </div>
 
+</div>
+<!-- /.container-fluid -->

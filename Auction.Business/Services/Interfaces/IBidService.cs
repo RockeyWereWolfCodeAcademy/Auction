@@ -12,9 +12,9 @@ public interface IBidService
 {
     public IEnumerable<BidListDTO> GetAll();
     public Task<BidDetailsDTO> GetByIdAsync(int id);
-    public Task CreateAsync(BidCreateDTO topic);
+    public Task CreateAsync(BidCreateDTO dto);
     public Task DeleteAsync(int id);
-    public Task UpdateAsync(int id, BidUpdateDTO topic);
+    public Task UpdateAsync(int id, BidUpdateDTO dto);
     public Task SoftDelete(int id);
     public Task ReverseSoftDelete(int id);
 }
