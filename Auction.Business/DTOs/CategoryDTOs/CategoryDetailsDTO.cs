@@ -11,6 +11,7 @@ public class CategoryDetailsDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }
+    public int ParentCategoryId { get; set; }
     public IEnumerable<CategoryListDTO>? ChildCategories { get; set; }
     //public IEnumerable<string>? ChildCategoryNames { get; set; }
 }

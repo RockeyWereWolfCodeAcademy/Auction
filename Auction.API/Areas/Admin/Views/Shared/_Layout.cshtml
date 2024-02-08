@@ -31,20 +31,36 @@
                     <span class="nav-link">Navigation</span>
                 </li>
                
+                @* <li class="nav-item ">
+                    <a class="nav-link" asp-action="Index" asp-controller="AdminItem">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large" style="color:#8f5fe8 !important"></i>
+                        </span>
+                        <span class="menu-title">Items</span>
+                    </a>
+                </li> *@
+                <li class="nav-item ">
+                    <a class="nav-link" asp-action="Index" asp-controller="AdminBid">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-table-large" style="color:#8f5fe8 !important"></i>
+                        </span>
+                        <span class="menu-title">Bids</span>
+                    </a>
+                </li>
                 <li class="nav-item ">
                     <a class="nav-link" asp-action="Index" asp-controller="AdminItem">
                         <span class="menu-icon">
                             <i class="mdi mdi-table-large" style="color:#8f5fe8 !important"></i>
                         </span>
-                        <span class="menu-title">Tables</span>
+                        <span class="menu-title">Items</span>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" asp-action="Index" asp-controller="PlaceHolder">
+                    <a class="nav-link" asp-action="Index" asp-controller="AdminCategory">
                         <span class="menu-icon">
                             <i class="mdi mdi-table-large" style="color:#8f5fe8 !important"></i>
                         </span>
-                        <span class="menu-title">PlaceHolder</span>
+                        <span class="menu-title">Categories</span>
                     </a>
                 </li>
             </ul>

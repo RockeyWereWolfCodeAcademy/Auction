@@ -2,6 +2,7 @@
 using Auction.Business.DTOs.ItemDTOs;
 using Auction.Business.Exceptions.Bid;
 using Auction.Business.Exceptions.Common;
+using Auction.Business.ExternalServices.Interfaces;
 using Auction.Business.Repositories.Interfaces;
 using Auction.Business.Services.Interfaces;
 using Auction.Core.Entities;
@@ -22,16 +23,25 @@ public class BidService : IBidService
     readonly IItemRepository _itemRepo;
     readonly IMapper _mapper;
     readonly IHttpContextAccessor _contextAccessor;
+    readonly ITokenService _tokenService;
     readonly string _userId;
+    readonly string _token;
 
-    public BidService(IBidRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, IItemRepository itemRepo)
+    public BidService(IBidRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, IItemRepository itemRepo, ITokenService tokenService)
     {
         _repo = repo;
         _mapper = mapper;
         _contextAccessor = contextAccessor;
+        _tokenService = tokenService;
+        _token = _contextAccessor.HttpContext?.Request.Cookies["token"];
         if (_contextAccessor.HttpContext.User.Claims.Any())
         {
             _userId = _contextAccessor.HttpContext?.User?.Claims?.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? throw new NullReferenceException();
+        }
+        else if (_token != null)
+        {
+            var validatedJwtToken = _tokenService.ValidateToken(_token);
+            _userId = validatedJwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
         _itemRepo = itemRepo;
     }

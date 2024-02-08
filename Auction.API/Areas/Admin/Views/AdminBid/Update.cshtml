@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Bid Update";
+}
+
+@model BidUpdateDTO
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header py-3">
+            <br />
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">@ViewData["Title"]</h4>
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="ItemId">Item</label>
+                    <select class="form-control" asp-for="ItemId" asp-items='@new SelectList(ViewBag.Items,"Id", "Name")'>
+                        <option style="color:inherit" disabled selected>Select Item</option>
+                    </select>
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Amount"></label>
+                    <input style="color:inherit" asp-for="Amount" class="form-control">
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <button class="btn btn-success">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
