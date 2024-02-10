@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
-namespace Auction.API.Areas.Admin.Controllers
+namespace Auction.API.Areas.Admin.Controllers.Common
 {
     public class AdminControllerBase : Controller
     {

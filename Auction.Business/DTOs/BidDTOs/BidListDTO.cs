@@ -17,4 +17,5 @@ public class BidListDTO
     public string BidderUsername { get; set; }
     public decimal Amount { get; set; }
     public DateTime BidTime { get; set; }
+    public bool IsDeleted { get; set; }
 }

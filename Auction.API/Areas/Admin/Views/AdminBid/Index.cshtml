@@ -39,7 +39,7 @@
                         {
                             foreach (var bid in Model)
                             {
-                                <tr>
+                                <tr class='@(bid.IsDeleted ? "bg-danger text-white" : "")'>
                                     <td>@bid.Id</td>
                                     <td>@bid.ItemId</td>
                                     <td>@bid.ItemName</td>
@@ -50,6 +50,14 @@
                                         <select class="form-select border-info bg-dark" style="color:inherit">
                                             <option style="color:inherit" onclick="location = this.value" value="AdminBid/Update/@bid.Id">Update</option>
                                             <option style="color:inherit" onclick="location = this.value" value="AdminBid/Delete/@bid.Id">Delete</option>
+                                            @if (bid.IsDeleted)
+                                            {
+                                                <option style="color:inherit" onclick="location = this.value" value="AdminBid/ReverseSoftDelete/@bid.Id">Reverse SoftDelete</option>
+                                            }
+                                            else
+                                            {
+                                                <option style="color:inherit" onclick="location = this.value" value="AdminBid/SoftDelete/@bid.Id">Soft Delete</option>
+                                            }
                                         </select>
                                     </td>
                                 </tr>

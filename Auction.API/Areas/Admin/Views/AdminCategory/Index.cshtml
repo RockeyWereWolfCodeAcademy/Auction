@@ -35,7 +35,7 @@
                         {
                             foreach (var cat in Model)
                             {
-                                <tr>
+                                <tr class='@(cat.IsDeleted ? "bg-danger text-white" : "")'>
                                     <td>@cat.Id</td>
                                     <td>@cat.Name</td>
                                     <td>@cat.ParentCategoryId</td>
@@ -43,6 +43,14 @@
                                         <select class="form-select border-info bg-dark" style="color:inherit">
                                             <option style="color:inherit" onclick="location = this.value" value="AdminCategory/Update/@cat.Id">Update</option>
                                             <option style="color:inherit" onclick="location = this.value" value="AdminCategory/Delete/@cat.Id">Delete</option>
+                                            @if (cat.IsDeleted)
+                                            {
+                                                <option style="color:inherit" onclick="location = this.value" value="AdminCategory/ReverseSoftDelete/@cat.Id">Reverse SoftDelete</option>
+                                            }
+                                            else
+                                            {
+                                                <option style="color:inherit" onclick="location = this.value" value="AdminCategory/SoftDelete/@cat.Id">Soft Delete</option>
+                                            }
                                         </select>
                                     </td>
                                 </tr>

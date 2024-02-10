@@ -1,4 +1,5 @@
-﻿using Auction.Business.DTOs.AuthDTOs;
+﻿using Auction.API.Areas.Admin.Controllers.Common;
+using Auction.Business.DTOs.AuthDTOs;
 using Auction.Business.DTOs.ItemDTOs;
 using Auction.Business.ExternalServices.Implements;
 using Auction.Business.ExternalServices.Interfaces;
@@ -75,6 +76,18 @@ public class AdminItemController : AdminControllerBase
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _service.DeleteAsync(id);
+        return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> SoftDeleteAsync(int id)
+    {
+        await _service.SoftDelete(id);
+        return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> ReverseSoftDeleteAsync(int id)
+    {
+        await _service.ReverseSoftDelete(id);
         return RedirectToAction("Index");
     }
 }

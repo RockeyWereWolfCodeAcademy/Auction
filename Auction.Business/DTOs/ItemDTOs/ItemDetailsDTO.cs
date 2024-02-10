@@ -20,4 +20,5 @@ public class ItemDetailsDTO
     public string SellerUsername { get; set; }
     public int CategoryId { get; set; }
     public string CategoryName { get; set; }
+    public bool IsDeleted { get; set; }
 }

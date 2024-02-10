@@ -19,4 +19,5 @@ public class Item : BaseEntity
     public int CategoryId { get; set; }
     public Category Category { get; set; }
     public IEnumerable<Bid>? Bids { get; set; }
+    public IEnumerable<ItemImage> Images { get; set; }
 }

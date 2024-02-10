@@ -14,4 +14,5 @@ public class CategoryDetailsDTO
     public int ParentCategoryId { get; set; }
     public IEnumerable<CategoryListDTO>? ChildCategories { get; set; }
     //public IEnumerable<string>? ChildCategoryNames { get; set; }
+    public bool IsDeleted { get; set; }
 }
