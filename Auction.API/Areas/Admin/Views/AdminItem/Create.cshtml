@@ -38,6 +38,16 @@
                     <span asp-validation-for="EndingTime" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="ActiveImage">Active Image</label>
+                    <input asp-for="ActiveImage" accept="image/*">
+                    <span asp-validation-for="ActiveImage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Images">Images</label>
+                    <input asp-for="Images" accept="image/*">
+                    <span asp-validation-for="Images" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label asp-for="CategoryId">Category</label>
                     <select class="form-control" asp-for="CategoryId" asp-items='@new SelectList(ViewBag.Categories,"Id", "Name")'>
                         <option style="color:inherit" disabled selected>Select Category</option>

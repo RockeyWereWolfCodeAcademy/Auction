@@ -35,6 +35,7 @@ public static class ServiceRegistration
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IItemService, ItemService>();
         services.AddScoped<IBidService, BidService>();
+        services.AddScoped<IFileService, FileService>();
         return services;
     }
     public static IServiceCollection AddBusinessLayer(this IServiceCollection services)

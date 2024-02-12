@@ -14,8 +14,10 @@ public class ItemMappingProfile : Profile
 {
     public ItemMappingProfile()
     {
-        CreateMap<ItemCreateDTO, Item>();
-        CreateMap<ItemUpdateDTO, Item>();
+        CreateMap<ItemCreateDTO, Item>()
+            .ForMember(i => i.Images, opt => opt.Ignore());
+        CreateMap<ItemUpdateDTO, Item>()
+            .ForMember(i => i.Images, opt => opt.Ignore());
         CreateMap<Item, ItemListDTO>()
             .ForMember(dto => dto.CategoryName, opt => opt.MapFrom(i => i.Category.Name))
             .ForMember(dto => dto.SellerUsername, opt => opt.MapFrom(i => i.Seller.UserName));

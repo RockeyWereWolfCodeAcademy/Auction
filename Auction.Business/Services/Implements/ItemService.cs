@@ -7,6 +7,7 @@ using Auction.Core.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +25,11 @@ public class ItemService : IItemService
     readonly IMapper _mapper;
     readonly IHttpContextAccessor _contextAccessor;
     readonly ITokenService _tokenService;
+    readonly IFileService _fileService;
     readonly string _userId;
     readonly string _token;
 
-    public ItemService(IItemRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, ICategoryRepository catRepo, ITokenService tokenService)
+    public ItemService(IItemRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, ICategoryRepository catRepo, ITokenService tokenService, IFileService fileService)
     {
         _repo = repo;
         _mapper = mapper;
@@ -44,8 +46,7 @@ public class ItemService : IItemService
             _userId = validatedJwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
         _catRepo = catRepo;
-        
-        
+        _fileService = fileService;
     }
 
     public async Task CreateAsync(ItemCreateDTO dto)
@@ -53,6 +54,17 @@ public class ItemService : IItemService
         var data = _mapper.Map<Item>(dto);
         if (!await _catRepo.IsExistAsync(r => r.Id == dto.CategoryId))
             throw new NotFoundException<Category>();
+        var imageList = dto.Images.Select(x => new ItemImage
+        {
+            ImageData = _fileService.GetFileData(x).Result,
+            IsActive = false,
+        }).ToList();
+        imageList.Add(new ItemImage
+        {
+            ImageData = _fileService.GetFileData(dto.ActiveImage).Result,
+            IsActive = true
+        });
+        data.Images = imageList;
         data.SellerId = _userId;
         data.CurrentPrice = data.StartingPrice;
         await _repo.CreateAsync(data);
@@ -79,6 +91,19 @@ public class ItemService : IItemService
     {
         var data = await _checkId(id);
         data = _mapper.Map(dto, data);
+        if (!await _catRepo.IsExistAsync(r => r.Id == dto.CategoryId))
+            throw new NotFoundException<Category>();
+        var imageList = dto.Images.Select(x => new ItemImage
+        {
+            ImageData = _fileService.GetFileData(x).Result,
+            IsActive = false,
+        }).ToList();
+        imageList.Add(new ItemImage
+        {
+            ImageData = _fileService.GetFileData(dto.ActiveImage).Result,
+            IsActive = true
+        });
+        data.Images = imageList;
         await _repo.SaveAsync();
     }
 
