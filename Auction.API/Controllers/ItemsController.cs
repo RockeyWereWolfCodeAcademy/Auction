@@ -1,7 +1,9 @@
 ﻿using Auction.Business.DTOs.ItemDTOs;
+using Auction.Business.ExternalServices.Interfaces;
 using Auction.Business.Services.Interfaces;
 using Auction.Core.Entities;
 using Auction.Core.Enums;
+using Braintree;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +14,7 @@ namespace Auction.API.Controllers;
 public class ItemsController : ControllerBase
 {
     readonly IItemService _service;
-    public ItemsController(IItemService service)
+    public ItemsController(IItemService service, IBraintreeService paymentService)
     {
         _service = service;
     }

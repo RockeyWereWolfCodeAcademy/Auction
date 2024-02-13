@@ -12,7 +12,7 @@ namespace Auction.Business.ExternalServices.Implements;
 
 public class EmailService : IEmailService
 {
-    IConfiguration _configuration { get; }
+    readonly IConfiguration _configuration;
 
     public EmailService(IConfiguration configuration)
     {

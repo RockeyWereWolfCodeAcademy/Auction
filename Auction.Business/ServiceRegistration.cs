@@ -36,6 +36,7 @@ public static class ServiceRegistration
         services.AddScoped<IItemService, ItemService>();
         services.AddScoped<IBidService, BidService>();
         services.AddScoped<IFileService, FileService>();
+        services.AddTransient<IBraintreeService, BraintreeService>();
         return services;
     }
     public static IServiceCollection AddBusinessLayer(this IServiceCollection services)
