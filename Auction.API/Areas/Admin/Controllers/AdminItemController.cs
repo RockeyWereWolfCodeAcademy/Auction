@@ -5,6 +5,7 @@ using Auction.Business.ExternalServices.Implements;
 using Auction.Business.ExternalServices.Interfaces;
 using Auction.Business.Services.Interfaces;
 using Auction.Core.Enums;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -23,10 +24,12 @@ public class AdminItemController : AdminControllerBase
 {
     readonly IItemService _service;
     readonly ICategoryService _categoryService;
-    public AdminItemController(IItemService service, ITokenService tokenService, ICategoryService categoryService) : base(tokenService)
+    readonly IMapper _mapper;
+    public AdminItemController(IItemService service, ITokenService tokenService, ICategoryService categoryService, IMapper mapper) : base(tokenService)
     {
         _service = service;
         _categoryService = categoryService;
+        _mapper = mapper;
     }
     public IActionResult Index()
     {
@@ -53,15 +56,7 @@ public class AdminItemController : AdminControllerBase
     {
         ViewBag.Categories = _categoryService.GetAll();
         var data = await _service.GetByIdAsync(id);
-        return View(new ItemUpdateDTO
-        {
-            Name = data.Name,
-            Description = data.Description,
-            StartingPrice = data.StartingPrice,
-            StartingTime = data.StartingTime,
-            EndingTime = data.EndingTime,
-            CategoryId = data.CategoryId,
-        });
+        return View(_mapper.Map(data, new ItemUpdateDTO()));
     }
     [HttpPost]
     public async Task<IActionResult> Update(int id, ItemUpdateDTO dto)

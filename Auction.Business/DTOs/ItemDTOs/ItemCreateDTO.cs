@@ -18,8 +18,6 @@ public class ItemCreateDTO
     public DateTime StartingTime { get; set; }
     public DateTime EndingTime { get; set; }
     public int CategoryId { get; set; }
-    public IFormFile ActiveImage { get; set; }
-    public IEnumerable<IFormFile> Images { get; set; }
 }
 
 public class ItemCreateDTOValidator : AbstractValidator<ItemCreateDTO>
@@ -51,9 +49,5 @@ public class ItemCreateDTOValidator : AbstractValidator<ItemCreateDTO>
         RuleFor(x => x.CategoryId)
             .NotEmpty()
             .NotNull();
-        RuleFor(x => x.ActiveImage)
-            .Must(x => x.Length <= 1048576).WithMessage("Image should me smaller than 1 mb");
-        RuleFor(x => x.Images)
-            .ForEach(x => x.Must(x => x.Length <= 1048576)).WithMessage("Image should me smaller than 1 mb");
     }
 }

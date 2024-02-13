@@ -30,7 +30,7 @@ public class ItemsController : ControllerBase
     [HttpPost]
     [Route("Create")]
     [Authorize]
-    public async Task<IActionResult> Create([FromForm]ItemCreateDTO dto)
+    public async Task<IActionResult> Create(ItemCreateDTO dto)
     {
         await _service.CreateAsync(dto);
         return StatusCode(StatusCodes.Status201Created);
@@ -58,7 +58,7 @@ public class ItemsController : ControllerBase
     }
     [HttpPut("Update/{id}")]
     [Authorize(Roles = nameof(Roles.Admin))]
-    public async Task<IActionResult> Update(int id, [FromForm]ItemUpdateDTO dto)
+    public async Task<IActionResult> Update(int id, ItemUpdateDTO dto)
     {
         await _service.UpdateAsync(id, dto);
         return Ok();

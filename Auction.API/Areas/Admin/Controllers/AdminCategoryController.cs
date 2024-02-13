@@ -4,6 +4,7 @@ using Auction.Business.DTOs.ItemDTOs;
 using Auction.Business.ExternalServices.Interfaces;
 using Auction.Business.Services.Implements;
 using Auction.Business.Services.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auction.API.Areas.Admin.Controllers;
@@ -12,10 +13,12 @@ namespace Auction.API.Areas.Admin.Controllers;
 public class AdminCategoryController : AdminControllerBase
 {
     readonly ICategoryService _service;
+    readonly IMapper _mapper;
 
-    public AdminCategoryController(ICategoryService service, ITokenService tokenService) : base(tokenService)
+    public AdminCategoryController(ICategoryService service, ITokenService tokenService, IMapper mapper) : base(tokenService)
     {
         _service = service;
+        _mapper = mapper;
     }
 
     public IActionResult Index()
@@ -43,11 +46,7 @@ public class AdminCategoryController : AdminControllerBase
     {
         var data = await _service.GetByIdAsync(id);
         ViewBag.Categories = _service.GetAll();
-        return View(new CategoryUpdateDTO
-        {
-            Name = data.Name,
-            ParentCategoryId = data.ParentCategoryId,
-        });
+        return View(_mapper.Map(data, new CategoryUpdateDTO()));
     }
     [HttpPost]
     public async Task<IActionResult> Update(int id, CategoryUpdateDTO dto)

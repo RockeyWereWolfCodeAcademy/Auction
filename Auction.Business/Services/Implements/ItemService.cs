@@ -54,17 +54,6 @@ public class ItemService : IItemService
         var data = _mapper.Map<Item>(dto);
         if (!await _catRepo.IsExistAsync(r => r.Id == dto.CategoryId))
             throw new NotFoundException<Category>();
-        var imageList = dto.Images.Select(x => new ItemImage
-        {
-            ImageData = _fileService.GetFileData(x).Result,
-            IsActive = false,
-        }).ToList();
-        imageList.Add(new ItemImage
-        {
-            ImageData = _fileService.GetFileData(dto.ActiveImage).Result,
-            IsActive = true
-        });
-        data.Images = imageList;
         data.SellerId = _userId;
         data.CurrentPrice = data.StartingPrice;
         await _repo.CreateAsync(data);
@@ -93,17 +82,6 @@ public class ItemService : IItemService
         data = _mapper.Map(dto, data);
         if (!await _catRepo.IsExistAsync(r => r.Id == dto.CategoryId))
             throw new NotFoundException<Category>();
-        var imageList = dto.Images.Select(x => new ItemImage
-        {
-            ImageData = _fileService.GetFileData(x).Result,
-            IsActive = false,
-        }).ToList();
-        imageList.Add(new ItemImage
-        {
-            ImageData = _fileService.GetFileData(dto.ActiveImage).Result,
-            IsActive = true
-        });
-        data.Images = imageList;
         await _repo.SaveAsync();
     }
 

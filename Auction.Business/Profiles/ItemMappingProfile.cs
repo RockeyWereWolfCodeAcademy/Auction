@@ -14,15 +14,14 @@ public class ItemMappingProfile : Profile
 {
     public ItemMappingProfile()
     {
-        CreateMap<ItemCreateDTO, Item>()
-            .ForMember(i => i.Images, opt => opt.Ignore());
-        CreateMap<ItemUpdateDTO, Item>()
-            .ForMember(i => i.Images, opt => opt.Ignore());
+        CreateMap<ItemCreateDTO, Item>();
+        CreateMap<ItemUpdateDTO, Item>();
         CreateMap<Item, ItemListDTO>()
             .ForMember(dto => dto.CategoryName, opt => opt.MapFrom(i => i.Category.Name))
             .ForMember(dto => dto.SellerUsername, opt => opt.MapFrom(i => i.Seller.UserName));
         CreateMap<Item, ItemDetailsDTO>()
             .ForMember(dto => dto.CategoryName, opt => opt.MapFrom(i => i.Category.Name))
             .ForMember(dto => dto.SellerUsername, opt => opt.MapFrom(i => i.Seller.UserName));
+        CreateMap<ItemDetailsDTO, ItemUpdateDTO>();
     }
 }

@@ -22,5 +22,6 @@ public class BidMappingProfile : Profile
         CreateMap<Bid, BidDetailsDTO>()
             .ForMember(dto => dto.ItemName, opt => opt.MapFrom(b => b.Item.Name))
             .ForMember(dto => dto.BidderUsername, opt => opt.MapFrom(b => b.Bidder.UserName));
+        CreateMap<BidDetailsDTO, BidUpdateDTO>();
     }
 }
