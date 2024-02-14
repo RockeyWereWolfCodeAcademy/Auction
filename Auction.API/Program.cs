@@ -4,6 +4,8 @@ using Auction.Business;
 using Auction.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog.Sinks.MSSqlServer;
+using Serilog;
 using Twitter.API.Helpers;
 
 namespace Auction;
@@ -15,6 +17,14 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         var jwt = builder.Configuration.GetSection("Jwt").Get<Jwt>();
+
+        var logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .CreateLogger();
+
+        
+        builder.Logging.AddSerilog(logger);
 
         // Add services to the container.
 

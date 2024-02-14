@@ -19,7 +19,7 @@ public class AuctionContext : IdentityDbContext<AppUser>
     public DbSet<Item> Items { get; set; }
     public DbSet<Bid> Bids { get; set; }
     public DbSet<ItemImage> ItemImages { get; set; }
-
+    public DbSet<ActivityLog> ActivityLogs { get; set; }
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var bids = ChangeTracker.Entries<Bid>();

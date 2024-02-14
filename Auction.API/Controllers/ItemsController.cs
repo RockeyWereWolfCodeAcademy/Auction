@@ -14,14 +14,17 @@ namespace Auction.API.Controllers;
 public class ItemsController : ControllerBase
 {
     readonly IItemService _service;
-    public ItemsController(IItemService service, IBraintreeService paymentService)
+    readonly ILogger<ItemsController> _logger;
+    public ItemsController(IItemService service, IBraintreeService paymentService, ILogger<ItemsController> logger)
     {
         _service = service;
+        _logger = logger;
     }
     [HttpGet]
     [Route("GetAll")]
     public IActionResult GetAll()
     {
+        _logger.LogInformation("Test Log");
         return Ok(_service.GetAll());
     }
     [HttpGet("Get/{id}")]

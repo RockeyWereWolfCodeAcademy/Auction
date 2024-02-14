@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,6 @@ public class ItemService : IItemService
     readonly IMapper _mapper;
     readonly IHttpContextAccessor _contextAccessor;
     readonly ITokenService _tokenService;
-    readonly IFileService _fileService;
     readonly string _userId;
     readonly string _token;
 
@@ -46,7 +46,6 @@ public class ItemService : IItemService
             _userId = validatedJwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
         _catRepo = catRepo;
-        _fileService = fileService;
     }
 
     public async Task CreateAsync(ItemCreateDTO dto)
