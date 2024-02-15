@@ -14,22 +14,16 @@ public class ActivityLogConfiguration : IEntityTypeConfiguration<ActivityLog>
 {
     public void Configure(EntityTypeBuilder<ActivityLog> builder)
     {
-
-        builder.HasKey(p => p.Id);
-
-        builder.Property(p => p.Exception)
-            .IsRequired(false);
-
-        builder.Property(p => p.Properties)
-            .IsRequired(false);
-
-        builder.Property(p => p.LogEvent)
-            .IsRequired(false);
-
-        builder.Property(p => p.TimeStamp)
-            .HasColumnType("datetime");
-
         builder.Property(p => p.Level)
             .HasMaxLength(16);
+
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.ActivityLogs)
+            .HasForeignKey(x => x.UserId);
+
+        builder.HasOne(x => x.Item)
+            .WithMany(x => x.ActivityLogs)
+            .OnDelete(DeleteBehavior.NoAction)
+            .HasForeignKey(x => x.ItemId);
     }
 }

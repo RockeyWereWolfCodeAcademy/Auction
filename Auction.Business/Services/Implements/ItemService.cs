@@ -8,7 +8,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +27,11 @@ public class ItemService : IItemService
     readonly IMapper _mapper;
     readonly IHttpContextAccessor _contextAccessor;
     readonly ITokenService _tokenService;
+    readonly ILogger _logger;
     readonly string _userId;
     readonly string _token;
 
-    public ItemService(IItemRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, ICategoryRepository catRepo, ITokenService tokenService, IFileService fileService)
+    public ItemService(IItemRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, ICategoryRepository catRepo, ITokenService tokenService, IFileService fileService, ILogger logger)
     {
         _repo = repo;
         _mapper = mapper;
@@ -46,6 +48,7 @@ public class ItemService : IItemService
             _userId = validatedJwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
         _catRepo = catRepo;
+        _logger = logger;
     }
 
     public async Task CreateAsync(ItemCreateDTO dto)
@@ -57,6 +60,9 @@ public class ItemService : IItemService
         data.CurrentPrice = data.StartingPrice;
         await _repo.CreateAsync(data);
         await _repo.SaveAsync();
+        LogContext.PushProperty("UserId", _userId);
+        LogContext.PushProperty("ItemId", data.Id);
+        _logger.Information("Posted Item for Auction");
     }
 
     public async Task DeleteAsync(int id)

@@ -33,6 +33,9 @@ namespace Auction.DAL.Migrations
                     b.Property<string>("Exception")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Level")
                         .IsRequired()
                         .HasMaxLength(16)
@@ -53,9 +56,17 @@ namespace Auction.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ActivityLogs");
                 });
@@ -407,6 +418,25 @@ namespace Auction.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Auction.Core.Entities.ActivityLog", b =>
+                {
+                    b.HasOne("Auction.Core.Entities.Item", "Item")
+                        .WithMany("ActivityLogs")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Auction.Core.Entities.AppUser", "User")
+                        .WithMany("ActivityLogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Auction.Core.Entities.Bid", b =>
                 {
                     b.HasOne("Auction.Core.Entities.AppUser", "Bidder")
@@ -519,6 +549,8 @@ namespace Auction.DAL.Migrations
 
             modelBuilder.Entity("Auction.Core.Entities.AppUser", b =>
                 {
+                    b.Navigation("ActivityLogs");
+
                     b.Navigation("Bids");
 
                     b.Navigation("Items");
@@ -533,6 +565,8 @@ namespace Auction.DAL.Migrations
 
             modelBuilder.Entity("Auction.Core.Entities.Item", b =>
                 {
+                    b.Navigation("ActivityLogs");
+
                     b.Navigation("Bids");
 
                     b.Navigation("Images");

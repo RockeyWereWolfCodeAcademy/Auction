@@ -8,6 +8,8 @@ using Auction.Business.Services.Interfaces;
 using Auction.Core.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Serilog;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +26,11 @@ public class BidService : IBidService
     readonly IMapper _mapper;
     readonly IHttpContextAccessor _contextAccessor;
     readonly ITokenService _tokenService;
+    readonly ILogger _logger;
     readonly string _userId;
     readonly string _token;
 
-    public BidService(IBidRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, IItemRepository itemRepo, ITokenService tokenService)
+    public BidService(IBidRepository repo, IMapper mapper, IHttpContextAccessor contextAccessor, IItemRepository itemRepo, ITokenService tokenService, ILogger logger)
     {
         _repo = repo;
         _mapper = mapper;
@@ -44,6 +47,7 @@ public class BidService : IBidService
             _userId = validatedJwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
         _itemRepo = itemRepo;
+        _logger = logger;
     }
 
     public async Task CreateAsync(BidCreateDTO dto)
@@ -66,6 +70,9 @@ public class BidService : IBidService
         data.BidderId = _userId;
         await _repo.CreateAsync(data);
         await _repo.SaveAsync();
+        LogContext.PushProperty("UserId", _userId);
+        LogContext.PushProperty("ItemId", data.ItemId);
+        _logger.Information("Bidded for item");
     }
 
     public async Task DeleteAsync(int id)

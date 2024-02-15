@@ -14,4 +14,5 @@ public class AppUser : IdentityUser
     public string? ImageUrl { get; set; }
     public IEnumerable<Item>? Items { get; set; }
     public IEnumerable<Bid>? Bids { get; set; }
+    public IEnumerable<ActivityLog>? ActivityLogs { get; set; }
 }

@@ -9,6 +9,10 @@ namespace Auction.Core.Entities;
 public class ActivityLog
 {
     public int Id { get; set; }
+    public string UserId { get; set; }
+    public AppUser User { get; set; }
+    public int ItemId { get; set; }
+    public Item Item { get; set; }
     public string Message { get; set; }
     public string MessageTemplate { get; set; }
     public string Level { get; set; }

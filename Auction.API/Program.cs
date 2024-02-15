@@ -7,6 +7,8 @@ using Microsoft.OpenApi.Models;
 using Serilog.Sinks.MSSqlServer;
 using Serilog;
 using Twitter.API.Helpers;
+using Serilog.Settings.Configuration;
+using Microsoft.Data.SqlClient;
 
 namespace Auction;
 
@@ -18,15 +20,17 @@ public class Program
 
         var jwt = builder.Configuration.GetSection("Jwt").Get<Jwt>();
 
+
         var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(builder.Configuration)
             .Enrich.FromLogContext()
             .CreateLogger();
 
-        
-        builder.Logging.AddSerilog(logger);
+        builder.Logging.ClearProviders();
+        builder.Host.UseSerilog(logger);
 
         // Add services to the container.
+
 
         builder.Services.AddControllers().AddNewtonsoftJson(opt=>
         {
@@ -34,6 +38,8 @@ public class Program
         });
 
         builder.Services.AddControllersWithViews();
+
+        //builder.Services.AddLogging();
 
         builder.Services.AddCors(opt =>
         {
