@@ -26,7 +26,7 @@ public class Program
             .Enrich.FromLogContext()
             .CreateLogger();
 
-        Serilog.Debugging.SelfLog.Enable(Console.Error);
+        //Serilog.Debugging.SelfLog.Enable(Console.Error);
 
         builder.Logging.ClearProviders();
         builder.Host.UseSerilog(logger);
