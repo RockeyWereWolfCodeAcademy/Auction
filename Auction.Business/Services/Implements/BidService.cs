@@ -72,7 +72,7 @@ public class BidService : IBidService
         await _repo.SaveAsync();
         LogContext.PushProperty("UserId", _userId);
         LogContext.PushProperty("ItemId", data.ItemId);
-        _logger.Information("Bidded for item");
+        _logger.Information($"Bidded {data.Amount} for an item");
     }
 
     public async Task DeleteAsync(int id)

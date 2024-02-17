@@ -1,6 +1,9 @@
-﻿using Auction.Business.DTOs.AuthDTOs;
+﻿using Auction.Business.DTOs.ActivityLogDTOs;
+using Auction.Business.DTOs.AuthDTOs;
+using Auction.Business.DTOs.UserDTOs;
 using Auction.Business.Exceptions.AppUser;
 using Auction.Business.Exceptions.Roles;
+using Auction.Business.Repositories.Interfaces;
 using Auction.Business.Services.Interfaces;
 using Auction.Core.Entities;
 using Auction.Core.Enums;
@@ -18,11 +21,13 @@ public class UserService : IUserService
 {
     readonly IMapper _mapper;
     readonly UserManager<AppUser> _userManager;
+    readonly IActivityLogRepository _activityRepo;
 
-    public UserService(IMapper mapper, UserManager<AppUser> userManager)
+    public UserService(IMapper mapper, UserManager<AppUser> userManager, IActivityLogRepository activityRepo)
     {
         _mapper = mapper;
         _userManager = userManager;
+        _activityRepo = activityRepo;
     }
 
     public async Task CreateAsync(RegisterDTO dto)
@@ -48,5 +53,15 @@ public class UserService : IUserService
             }
             throw new RoleAssignFailedException(sb.ToString().TrimEnd());
         }
+    }
+
+    public IEnumerable<AppUserListDTO> GetAllUsers()
+    {
+        return _mapper.Map<IEnumerable<AppUserListDTO>>(_userManager.Users);
+    }
+
+    public IEnumerable<ActivityLogListDTO> GetActivityLogByUserId(string userId)
+    {
+        return _mapper.Map<IEnumerable<ActivityLogListDTO>>(_activityRepo.GetAll().Where(a => a.UserId == userId));
     }
 }

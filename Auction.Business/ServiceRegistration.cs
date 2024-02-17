@@ -23,6 +23,7 @@ public static class ServiceRegistration
         services.AddScoped<IItemRepository, ItemRepository>();
         services.AddScoped<IBidRepository, BidRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IActivityLogRepository, ActivityLogRepository>();
         return services;
     }
 
