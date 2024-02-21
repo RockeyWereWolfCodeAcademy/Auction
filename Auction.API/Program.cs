@@ -9,6 +9,8 @@ using Serilog;
 using Twitter.API.Helpers;
 using Serilog.Settings.Configuration;
 using Microsoft.Data.SqlClient;
+using Auction.API.Hubs;
+using Microsoft.Extensions.Options;
 
 namespace Auction;
 
@@ -56,6 +58,7 @@ public class Program
         builder.Services.AddSwaggerGen(opt =>
         {
             opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPI", Version = "v1" });
+            opt.AddSignalRSwaggerGen();
             opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -77,7 +80,7 @@ public class Program
                             Id="Bearer"
                         }
                     },
-                    new string[]{}
+                    Array.Empty<string>()
                 }
             });
         }
@@ -91,6 +94,7 @@ public class Program
         builder.Services.AddRepositories();
         builder.Services.AddBusinessLayer();
         builder.Services.AddJwtAuthentication(jwt);
+        builder.Services.AddSignalR();
 
         var app = builder.Build();
 
@@ -119,6 +123,7 @@ public class Program
             name: "areas",
             pattern: "{area:exists}/{controller=AdminItem}/{action=Index}/{id?}"
         );
+        app.MapHub<ChatHub>("/Chat");
 
         app.Run();
     }
