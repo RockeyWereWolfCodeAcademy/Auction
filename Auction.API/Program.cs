@@ -9,7 +9,6 @@ using Serilog;
 using Twitter.API.Helpers;
 using Serilog.Settings.Configuration;
 using Microsoft.Data.SqlClient;
-using Auction.API.Hubs;
 using Microsoft.Extensions.Options;
 
 namespace Auction;
@@ -123,7 +122,6 @@ public class Program
             name: "areas",
             pattern: "{area:exists}/{controller=AdminItem}/{action=Index}/{id?}"
         );
-        app.MapHub<ChatHub>("/Chat");
 
         app.Run();
     }
